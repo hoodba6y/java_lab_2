@@ -6,7 +6,7 @@ import java.util.Scanner;
 class Name {
     private String lastName; // Фамилия
     private String firstName; // Личное имя
-    private String middleName; // Отчество
+    private String otchestvo; // Отчество
 
     // Конструкторы
     public Name(String firstName) { // Конструктор только с именем
@@ -17,19 +17,19 @@ class Name {
         this(lastName, firstName, null); // Вызов основного конструктора
     }
 
-    public Name(String lastName, String firstName, String middleName) { // Основной конструктор
+    public Name(String lastName, String firstName, String otchestvo) { // Основной конструктор
         this.lastName = lastName; // Инициализируем фамилию
         this.firstName = firstName; // Инициализируем имя
-        this.middleName = middleName; // Инициализируем отчество
+        this.otchestvo = otchestvo; // Инициализируем отчество
     }
 
     public String getLastName() { return lastName; } // Получаем фамилию
     public String getFirstName() { return firstName; } // Получаем имя
-    public String getMiddleName() { return middleName; } // Получаем отчество
+    public String getotchestvo() { return otchestvo; } // Получаем отчество
 
     @Override
     public String toString() { // Преобразуем в строку
-        StringBuilder sb = new StringBuilder(); // Создаем строителя строк
+        StringBuilder sb = new StringBuilder(); // Создаем строитель строк
 
         if (lastName != null && !lastName.isEmpty()) { // Если фамилия задана
             sb.append(lastName); // Добавляем фамилию
@@ -40,16 +40,16 @@ class Name {
             sb.append(firstName); // Добавляем имя
         }
 
-        if (middleName != null && !middleName.isEmpty()) { // Если отчество задано
+        if (otchestvo != null && !otchestvo.isEmpty()) { // Если отчество задано
             if (sb.length() > 0) sb.append(" "); // Добавляем пробел если уже есть текст
-            sb.append(middleName); // Добавляем отчество
+            sb.append(otchestvo); // Добавляем отчество
         }
 
         return sb.toString(); // Возвращаем готовую строку
     }
 }
 
-// Задание 1, задача 2 и Задания 4-5. Класс Время
+// Задание 1, задача 2: Класс Время
 class Time {
     private int totalSeconds; // Время в секундах с начала суток
 
@@ -58,20 +58,13 @@ class Time {
         this.totalSeconds = totalSeconds % (24 * 3600); // Обеспечиваем, чтобы было не больше 24 часов
     }
 
-    // Конструктор из часов, минут, секунд
-    public Time(int hours, int minutes, int seconds) { // Конструктор из компонентов времени
-        this(hours * 3600 + minutes * 60 + seconds); // Преобразуем в секунды и вызываем основной конструктор
-    }
-
     // Для задания 5
     public int getHours() { // Получаем количество часов
         return totalSeconds / 3600; // Часы = общее время / 3600
     }
-
     public int getMinutes() { // Получаем количество минут с начала часа
         return (totalSeconds % 3600) / 60; // Минуты = остаток от часов / 60
     }
-
     public int getSeconds() { // Получаем количество секунд с начала минуты
         return totalSeconds % 60; // Секунды = остаток от деления на 60
     }
@@ -87,19 +80,27 @@ class Time {
 
     // Метод для получения общего количества секунд
     public int getTotalSeconds() { // Получаем общее количество секунд
-        return totalSeconds; // Возвращаем значение поля
+        return totalSeconds; // Возвращаем значение
     }
 }
 
-// Задания 2-3. Класс Отдел
+// Задание 4: Расширенный класс Время
+class ExtendedTime extends Time {
+    // Конструктор из часов, минут, секунд
+    public ExtendedTime(int hours, int minutes, int seconds) { // Конструктор из компонентов времени
+        super(hours * 3600 + minutes * 60 + seconds); // Преобразуем в секунды и вызываем конструктор родителя
+    }
+}
+
+// Задания 2-3: Класс Отдел
 class Department {
     private String name; // Название отдела
-    private Employee manager;  // Начальник отдела
+    private Employee manager; // Начальник отдела
     private List<Employee> employees; // Список сотрудников отдела
 
     public Department(String name) { // Конструктор отдела
         this.name = name; // Устанавливаем название
-        this.employees = new ArrayList<>(); // Инициализируем пустой список сотрудников
+        this.employees = new ArrayList<>(); // Пустой список сотрудников
     }
 
     public String getName() { return name; } // Получаем название отдела
@@ -120,7 +121,7 @@ class Department {
     }
 
     public List<Employee> getEmployees() {
-        return employees;  // Возвращаем список
+        return employees; // Возвращаем список
     }
 
     @Override
@@ -129,7 +130,7 @@ class Department {
     }
 }
 
-// Задания 2-3. Класс Сотрудник
+// Задания 2-3: Класс Сотрудник
 class Employee {
     private String name; // Имя сотрудника
     private Department department; // Отдел сотрудника
@@ -145,8 +146,8 @@ class Employee {
 
     @Override
     public String toString() { // Строковое представление сотрудника
-        if (department.getManager() == this) { // Если сотрудник - начальник отдела
-            return name + " начальник отдела " + department.getName(); // Специальный формат для начальника
+        if (department.getManager() == this) { // Если сотрудник начальник отдела
+            return name + " начальник отдела " + department.getName(); // Формат для начальника
         } else {
             return name + " работает в отделе " + department.getName() + // Обычный сотрудник
                     ", начальник которого " + department.getManager().getName();
@@ -155,7 +156,7 @@ class Employee {
 
     // Метод для получения списка всех сотрудников отдела (задание 3)
     public List<Employee> getDepartmentEmployees() { // Получаем всех сотрудников отдела
-        return department.getEmployees(); // Делегируем запрос отделу
+        return department.getEmployees(); // Отправляем запрос отделу
     }
 }
 
@@ -181,8 +182,9 @@ public class ex1 {
     }
 
     public static void main(String[] args) { // Главный метод программы
-        Scanner scanner = new Scanner(System.in); // Создаем объекта для ввода данных
+        Scanner scanner = new Scanner(System.in); // Создаем объект для ввода данных
 
+        // Задание 1, задача 1. Имена
         System.out.println("Задание 1, задача 1. Имена");
         Name name1 = new Name("Клеопатра"); // Создаем имя только с личным именем
         Name name2 = new Name("Пушкин", "Александр", "Сергеевич"); // Создаем полное имя
@@ -193,19 +195,25 @@ public class ex1 {
         System.out.println("3. " + name3); // Выводим третье имя
         System.out.println();
 
-        System.out.println("Задание 1, задача 2 и задания 4-5. Время");
+        // Задание 1, задача 2. Время
+        System.out.println("Задание 1, задача 2. Время");
         Time time1 = new Time(10); // Создаем время из 10 секунд
         Time time2 = new Time(10000); // Создаем время из 10000 секунд
         Time time3 = new Time(100000); // Создаем время из 100000 секунд
-        Time time4 = new Time(2, 3, 5); // Создаем время из часов, минут, секунд
 
         System.out.println("10 секунд: " + time1); // Выводим время 1
         System.out.println("10000 секунд: " + time2); // Выводим время 2
         System.out.println("100000 секунд: " + time3); // Выводим время 3
+        System.out.println();
+
+        // Задание 4. Расширенное время
+        System.out.println("Задание 4. Расширенное время");
+        ExtendedTime time4 = new ExtendedTime(2, 3, 5); // Создаем время из часов, минут, секунд
         System.out.println("2 часа, 3 минуты, 5 секунд: " + time4); // Выводим время 4
         System.out.println();
-        
-        System.out.println("=== ЗАДАНИЕ 5: АНАЛИЗ ВРЕМЕНИ ===");
+
+        // Задание 5. Анализ времени
+        System.out.println("Задание 5. Анализ времени");
         Time testTime = new Time(34056); // Создаем тестовое время для анализа
         System.out.println("Время 34056 секунд: " + testTime); // Выводим время
         System.out.println("Часов: " + testTime.getHours()); // Выводим часы
@@ -221,8 +229,8 @@ public class ex1 {
         System.out.println("Секунд: " + testTime3.getSeconds()); // Выводим секунды
         System.out.println();
 
+        // Задания 2-3. Сотрудники и отделы
         System.out.println("Задания 2-3. Сотрудники и отделы");
-
         Department itDepartment = new Department("IT"); // Создаем отдел IT
 
         // Создаем сотрудников
@@ -238,6 +246,7 @@ public class ex1 {
         System.out.println(sidorov); // Выводим информацию о Сидорове
         System.out.println();
 
+        // Задание 3. Список сотрудников отдела
         System.out.println("Задание 3. Список сотрудников отдела");
         List<Employee> departmentEmployees = kozlov.getDepartmentEmployees(); // Получаем список сотрудников
         System.out.println("Сотрудники отдела IT:"); // Выводим заголовок списка
@@ -248,18 +257,18 @@ public class ex1 {
 
 
         // Часть с вводом данных
-        System.out.println("ЧАСТЬ С ВВОДОМ");
+        System.out.println("Часть с вводом данных");
 
         // Ввод имени
         System.out.println("Создаем новое имя:");
         String lastName = getStringInput(scanner, "Фамилия (можно пропустить): "); // Вводим фамилию
         String firstName = getStringInput(scanner, "Имя: "); // Вводим имя
-        String middleName = getStringInput(scanner, "Отчество (можно пропустить): "); // Вводим отчество
+        String otchestvo = getStringInput(scanner, "Отчество (можно пропустить): "); // Вводим отчество
 
         Name userName = new Name( // Создаем имя из введенных данных
-                lastName.isEmpty() ? null : lastName, // Если фамилия пустая - null, иначе фамилия
+                lastName.isEmpty() ? null : lastName, // Если фамилия пустая null, иначе фамилия
                 firstName, // Имя
-                middleName.isEmpty() ? null : middleName // Если отчество пустое - null, иначе отчество
+                otchestvo.isEmpty() ? null : otchestvo // Если отчество пустое null, иначе отчество
         );
         System.out.println("Созданное имя: " + userName); // Выводим созданное имя
         System.out.println();
@@ -279,7 +288,7 @@ public class ex1 {
         int hours = getIntInput(scanner, "Часы: "); // Вводим часы
         int minutes = getIntInput(scanner, "Минуты: "); // Вводим минуты
         int secs = getIntInput(scanner, "Секунды: "); // Вводим секунды
-        Time userTime2 = new Time(hours, minutes, secs); // Создаем время из компонентов
+        ExtendedTime userTime2 = new ExtendedTime(hours, minutes, secs); // Создаем время из компонентов
         System.out.println("Время: " + userTime2); // Выводим время
         System.out.println();
 
@@ -309,7 +318,7 @@ public class ex1 {
 
         // Выводим информацию о созданном отделе
         System.out.println();
-        System.out.println("СОЗДАННЫЙ ОТДЕЛ");
+        System.out.println("Созданный отдел");
         System.out.println(emp1); // Выводим информацию о первом сотруднике
         System.out.println(emp2); // Выводим информацию о втором сотруднике
         System.out.println("Список всех сотрудников отдела:"); // Выводим заголовок списка
